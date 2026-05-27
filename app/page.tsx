@@ -377,11 +377,12 @@ export default function Home() {
                   link: "https://drive.google.com/drive/folders/1DnAJLZomr63fNEmduyUqczlNgNqedCfW"
                 },
                 {
-                  title: "Crowd Density Estimator using YOLOv5",
+                  title: "Crowd Density Estimator using YOLO",
                   type: "Mini Project",
                   date: "04/2024 – 09/2024",
-                  desc: "Engineered an AI-based Crowd Density Estimator using Python, Flask, and YOLOv5 for real-time person detection and crowd counting. Implemented object detection for tracking from video streams, with a Flask web application and user authentication.",
-                  tags: ["Python", "Flask", "YOLOv5", "AI"]
+                  desc: "Developed a Flask-based AI web application utilizing YOLO object detection for real-time crowd density estimation. Supports both image and video uploads, generating live bounding boxes and inference results. Deployed on the Railway cloud platform.",
+                  tags: ["Python", "Flask", "YOLO", "OpenCV", "Railway"],
+                  link: "https://people-counter-app-production.up.railway.app/"
                 }
               ].map((proj, idx) => (
                 <motion.div
