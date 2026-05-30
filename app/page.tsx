@@ -62,7 +62,7 @@ const CoderHero = ({ onExplore }: { onExplore: () => void }) => {
             <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
             <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
           </div>
-          <span className="text-cyan-400/80 text-xs md:text-sm tracking-widest uppercase">root@portfolio:~/home$ ./init_portfolio.sh</span>
+          <span className="text-cyan-400/80 text-xs md:text-sm tracking-widest uppercase">BESETTY SHUBHAM</span>
         </motion.div>
 
         {/* Huge Cyberpunk Welcome Text */}
@@ -79,7 +79,7 @@ const CoderHero = ({ onExplore }: { onExplore: () => void }) => {
           className="text-cyan-500/80 mb-16 flex flex-col items-center gap-4"
         >
           <p className="text-sm md:text-base tracking-[0.2em] uppercase max-w-2xl text-slate-400">
-            {'>'} STATUS: SYSTEM_ONLINE | MODULES_LOADED | READY_FOR_DEPLOYMENT
+            {'>'} Information Technology Student | Full Stack Developer
           </p>
           <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1 }} className="w-6 h-8 bg-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.8)]"></motion.div>
         </motion.div>
@@ -178,7 +178,7 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-xl leading-relaxed text-slate-300 font-light">
-                  Passionate about problem-solving and seeking opportunities to apply technical skills in real-world projects. Skilled in <strong className="text-white font-medium drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">Frontend and Backend Development</strong>, focusing on building scalable, performant, and beautifully animated web applications.
+                  Information Technology student with skills in Full-Stack Development, Web Technologies, JavaScript, and Database Management Systems. Passionate about problem-solving and building scalable software solutions through real-world projects.
                 </p>
 
                 <div className="pt-4 flex flex-wrap items-center gap-4">
