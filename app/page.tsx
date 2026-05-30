@@ -9,10 +9,10 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
 
   const container = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
+    visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.5 * i },
-    }),
+      transition: { staggerChildren: 0.05, delayChildren: 0.2 },
+    },
   };
 
   const child = {
@@ -21,12 +21,12 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
       y: 0,
       scale: 1,
       filter: "blur(0px)",
-      transition: { type: "spring" as const, damping: 12, stiffness: 100 },
+      transition: { type: "spring", damping: 12, stiffness: 100 },
     },
     hidden: {
       opacity: 0,
       y: 20,
-      scale: 0.8,
+      scale: 0.5,
       filter: "blur(10px)",
     },
   };
@@ -49,55 +49,57 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
 
 const CinematicHero = ({ onExplore }: { onExplore: () => void }) => {
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#02040a] px-4">
-      {/* Background Particles & Gradients */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+    <div className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#02040a] px-4 font-sans">
+      
+      {/* Animated Gradients */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] mix-blend-screen"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.25, 0.1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-700/30 rounded-full blur-[120px]"
         ></motion.div>
         <motion.div 
-          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-900/20 rounded-full blur-[150px] mix-blend-screen"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 2 }}
+          className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-indigo-700/20 rounded-full blur-[150px]"
         ></motion.div>
       </div>
 
-      {/* Expanding Orb Effect */}
+      {/* Expanding Glow Orb */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: [0, 2, 3], opacity: [0, 0.8, 0] }}
-        transition={{ duration: 3, ease: "easeOut" }}
-        className="absolute w-40 h-40 bg-cyan-400/30 rounded-full blur-[60px] z-10"
+        animate={{ scale: [0, 2.5, 4], opacity: [0, 0.8, 0] }}
+        transition={{ duration: 4, ease: "circOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-400/40 rounded-full blur-[50px] z-10"
       ></motion.div>
 
-      <div className="relative z-20 flex flex-col items-center text-center max-w-5xl">
+      <div className="relative z-20 flex flex-col items-center text-center max-w-5xl mt-12">
         <AnimatedText
           text="Welcome To My Portfolio"
-          className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-blue-300 tracking-tight drop-shadow-[0_0_20px_rgba(6,182,212,0.3)] mb-8"
+          className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] mb-8"
         />
 
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 2.5, ease: "easeOut" }}
-          className="text-lg md:text-xl lg:text-2xl text-slate-300 font-light mb-12 max-w-3xl leading-relaxed"
+          transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
+          className="text-base md:text-xl lg:text-2xl text-slate-300/90 font-light mb-14 max-w-3xl leading-relaxed tracking-wide"
         >
           Crafting modern web experiences, AI-powered applications, and innovative digital solutions. Explore my projects, skills, and journey as a developer.
         </motion.p>
 
         <motion.button
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 3.5, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 2.2, ease: "easeOut" }}
           onClick={onExplore}
-          className="px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 hover:bg-white/10 rounded-full text-white font-medium tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] group flex items-center gap-3"
+          className="px-10 py-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-900/20 rounded-full text-white font-medium tracking-widest uppercase text-sm transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.1)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] hover:-translate-y-1 group flex items-center gap-4 relative overflow-hidden"
         >
-          Explore Portfolio
-          <svg className="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          <span className="relative z-10">Explore Portfolio</span>
+          <svg className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
+          <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
         </motion.button>
       </div>
     </div>
