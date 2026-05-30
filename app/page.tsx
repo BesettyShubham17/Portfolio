@@ -3,103 +3,105 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 
-// Helper for letter-by-letter animation
-const AnimatedText = ({ text, className }: { text: string; className?: string }) => {
-  const letters = Array.from(text);
+// Cyberpunk Scramble Text Effect
+const ScrambleText = ({ text, className }: { text: string; className?: string }) => {
+  const [displayText, setDisplayText] = useState("");
+  
+  useEffect(() => {
+    let iteration = 0;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+<>[]{}";
+    const interval = setInterval(() => {
+      setDisplayText(
+        text
+          .split("")
+          .map((letter, index) => {
+            if (index < iteration) return text[index];
+            if (letter === " ") return " ";
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("")
+      );
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 1 / 3;
+    }, 40);
+    return () => clearInterval(interval);
+  }, [text]);
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05, delayChildren: 0.2 },
-    },
-  };
-
-  const child = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      filter: "blur(0px)",
-      transition: { type: "spring", damping: 12, stiffness: 100 },
-    },
-    hidden: {
-      opacity: 0,
-      y: 20,
-      scale: 0.5,
-      filter: "blur(10px)",
-    },
-  };
-
-  return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate="visible"
-      className={`flex flex-wrap justify-center ${className}`}
-    >
-      {letters.map((letter, index) => (
-        <motion.span variants={child} key={index} className="inline-block">
-          {letter === " " ? "\u00A0" : letter}
-        </motion.span>
-      ))}
-    </motion.div>
-  );
+  return <span className={className}>{displayText}</span>;
 };
 
-const CinematicHero = ({ onExplore }: { onExplore: () => void }) => {
+// Advanced Coder Portfolio Hero
+const CoderHero = ({ onExplore }: { onExplore: () => void }) => {
   return (
-    <div className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#02040a] px-4 font-sans">
+    <div className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#050505] font-mono px-4">
       
-      {/* Animated Gradients */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-700/30 rounded-full blur-[120px]"
-        ></motion.div>
-        <motion.div 
-          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 2 }}
-          className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-indigo-700/20 rounded-full blur-[150px]"
-        ></motion.div>
+      {/* Background Tech Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-40"></div>
+      
+      {/* Binary Data Columns */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 hidden md:block">
+         <motion.div animate={{ y: [0, -1000] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }} className="absolute left-[5%] top-0 text-cyan-500/50 text-xs w-24 break-all opacity-50">
+           {Array(60).fill("01011001 01101111 01110101 00100000 01100001 01110010 01100101 00100000 01100001 01110111 01100101 01110011 01101111 01101101 01100101 ").join("")}
+         </motion.div>
+         <motion.div animate={{ y: [-1000, 0] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute right-[5%] bottom-0 text-blue-500/50 text-xs w-24 break-all opacity-50">
+           {Array(60).fill("function init() { return true; } const coder = new Developer(); coder.build(); ").join("")}
+         </motion.div>
       </div>
 
-      {/* Expanding Glow Orb */}
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: [0, 2.5, 4], opacity: [0, 0.8, 0] }}
-        transition={{ duration: 4, ease: "circOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-400/40 rounded-full blur-[50px] z-10"
-      ></motion.div>
-
-      <div className="relative z-20 flex flex-col items-center text-center max-w-5xl mt-12">
-        <AnimatedText
-          text="Welcome To My Portfolio"
-          className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] mb-8"
-        />
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
+      <div className="relative z-20 flex flex-col items-center w-full max-w-5xl text-center">
+        
+        {/* Terminal Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 1.5, ease: "easeOut" }}
-          className="text-base md:text-xl lg:text-2xl text-slate-300/90 font-light mb-14 max-w-3xl leading-relaxed tracking-wide"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="flex items-center gap-3 mb-8 bg-[#0a0f1c]/80 backdrop-blur-md border border-cyan-900/50 rounded-t-lg px-6 py-3 shadow-[0_0_20px_rgba(6,182,212,0.15)]"
         >
-          Crafting modern web experiences, AI-powered applications, and innovative digital solutions. Explore my projects, skills, and journey as a developer.
-        </motion.p>
+          <div className="flex gap-2 mr-4">
+            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+          </div>
+          <span className="text-cyan-400/80 text-xs md:text-sm tracking-widest uppercase">root@portfolio:~/home$ ./init_portfolio.sh</span>
+        </motion.div>
 
+        {/* Huge Cyberpunk Welcome Text */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-widest drop-shadow-[0_0_25px_rgba(6,182,212,0.6)] mb-8 flex flex-col md:flex-row items-center justify-center gap-x-6 gap-y-4">
+          <ScrambleText text="WELCOME TO" className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300" />
+          <ScrambleText text="MY PORTFOLIO" className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500" />
+        </h1>
+
+        {/* Blinking Cursor & Subtitle */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 2.5 }}
+          className="text-cyan-500/80 mb-16 flex flex-col items-center gap-4"
+        >
+          <p className="text-sm md:text-base tracking-[0.2em] uppercase max-w-2xl text-slate-400">
+            {'>'} STATUS: SYSTEM_ONLINE | MODULES_LOADED | READY_FOR_DEPLOYMENT
+          </p>
+          <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1 }} className="w-6 h-8 bg-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.8)]"></motion.div>
+        </motion.div>
+
+        {/* Cyberpunk Hacker Button */}
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 2.2, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 3, ease: "backOut" }}
           onClick={onExplore}
-          className="px-10 py-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-900/20 rounded-full text-white font-medium tracking-widest uppercase text-sm transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.1)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] hover:-translate-y-1 group flex items-center gap-4 relative overflow-hidden"
+          className="group relative px-8 py-5 bg-transparent border border-cyan-500/30 text-cyan-400 font-bold uppercase tracking-[0.3em] text-sm md:text-base transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)]"
         >
-          <span className="relative z-10">Explore Portfolio</span>
-          <svg className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-          <div className="absolute inset-0 bg-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+          {/* Corner Accents */}
+          <div className="absolute top-[-1px] left-[-1px] w-3 h-3 border-t-2 border-l-2 border-cyan-400 group-hover:w-full group-hover:h-full transition-all duration-500 ease-out z-0"></div>
+          <div className="absolute bottom-[-1px] right-[-1px] w-3 h-3 border-b-2 border-r-2 border-cyan-400 group-hover:w-full group-hover:h-full transition-all duration-500 ease-out z-0"></div>
+          
+          <span className="relative z-10 flex items-center gap-4">
+            [ EXECUTE_EXPLORE ]
+            <svg className="w-5 h-5 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </span>
         </motion.button>
       </div>
     </div>
@@ -127,7 +129,7 @@ export default function Home() {
     <main className="bg-[#02040a] text-slate-200 min-h-screen selection:bg-cyan-500 selection:text-white font-sans overflow-hidden relative">
       
       {/* Cinematic Hero Entrance */}
-      <CinematicHero onExplore={handleExplore} />
+      <CoderHero onExplore={handleExplore} />
 
       {/* Content Wrapper */}
       {isUnlocked && (
