@@ -383,6 +383,14 @@ export default function Home() {
                   desc: "Developed a Flask-based AI web application utilizing YOLO object detection for real-time crowd density estimation. Supports both image and video uploads, generating live bounding boxes and inference results. Deployed on the Railway cloud platform.",
                   tags: ["Python", "Flask", "YOLO", "OpenCV", "Railway"],
                   link: "https://people-counter-app-production.up.railway.app/"
+                },
+                {
+                  title: "AI Resume Analyzer",
+                  type: "Full Stack Project",
+                  date: "05/2026 – Present",
+                  desc: "Built an AI-powered Resume Analyzer that evaluates resumes, provides ATS scores, extracts key skills, and offers improvement suggestions to enhance job application success.",
+                  tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Tailwind CSS"],
+                  link: "https://ai-resume-analyzer-kappa-tan.vercel.app/"
                 }
               ].map((proj, idx) => (
                 <motion.div
