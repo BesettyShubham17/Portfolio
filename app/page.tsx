@@ -11,7 +11,7 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.04 * i },
+      transition: { staggerChildren: 0.08, delayChildren: 0.5 * i },
     }),
   };
 
@@ -35,8 +35,7 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
     <motion.div
       variants={container}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.5 }}
+      animate="visible"
       className={`flex flex-wrap justify-center ${className}`}
     >
       {letters.map((letter, index) => (
@@ -48,152 +47,85 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
   );
 };
 
-// Hacker tech code transition
-const HackerTransition = ({ onUnlock }: { onUnlock: () => void }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.5 });
-  const [text, setText] = useState("");
-  const [isDecrypted, setIsDecrypted] = useState(false);
-  const targetText = "> SYSTEM_ACCESS_GRANTED :: LOADING_PROFILE...";
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+const CinematicHero = ({ onExplore }: { onExplore: () => void }) => {
+  return (
+    <div className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#02040a] px-4">
+      {/* Background Particles & Gradients */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] mix-blend-screen"
+        ></motion.div>
+        <motion.div 
+          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-900/20 rounded-full blur-[150px] mix-blend-screen"
+        ></motion.div>
+      </div>
+
+      {/* Expanding Orb Effect */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: [0, 2, 3], opacity: [0, 0.8, 0] }}
+        transition={{ duration: 3, ease: "easeOut" }}
+        className="absolute w-40 h-40 bg-cyan-400/30 rounded-full blur-[60px] z-10"
+      ></motion.div>
+
+      <div className="relative z-20 flex flex-col items-center text-center max-w-5xl">
+        <AnimatedText
+          text="Welcome To My Portfolio"
+          className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-blue-300 tracking-tight drop-shadow-[0_0_20px_rgba(6,182,212,0.3)] mb-8"
+        />
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 2.5, ease: "easeOut" }}
+          className="text-lg md:text-xl lg:text-2xl text-slate-300 font-light mb-12 max-w-3xl leading-relaxed"
+        >
+          Crafting modern web experiences, AI-powered applications, and innovative digital solutions. Explore my projects, skills, and journey as a developer.
+        </motion.p>
+
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 3.5, ease: "easeOut" }}
+          onClick={onExplore}
+          className="px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-cyan-400/50 hover:bg-white/10 rounded-full text-white font-medium tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] group flex items-center gap-3"
+        >
+          Explore Portfolio
+          <svg className="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </motion.button>
+      </div>
+    </div>
+  );
+};
+
+export default function Home() {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const glassCard = "bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]";
 
   useEffect(() => {
-    if (!isInView) {
-      setText("> AWAITING_HANDSHAKE...");
-      setIsDecrypted(false);
-      return;
-    }
+    // Reveal content automatically after entrance animation (5s)
+    const timer = setTimeout(() => setIsUnlocked(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setText(
-        targetText
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return targetText[index];
-            }
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join("")
-      );
-
-      if (iteration >= targetText.length) {
-        clearInterval(interval);
-        setIsDecrypted(true);
-      }
-      iteration += 1.5;
-    }, 15);
-
-    return () => clearInterval(interval);
-  }, [isInView]);
-
-  const handleEnterSystem = () => {
-    onUnlock();
+  const handleExplore = () => {
+    setIsUnlocked(true);
     setTimeout(() => {
       document.getElementById("about-me")?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
   return (
-    <div ref={ref} className="w-full py-20 flex flex-col items-center justify-center border-y border-cyan-500/20 bg-black/40 backdrop-blur-md relative overflow-hidden z-50 my-16 shadow-[0_0_30px_rgba(6,182,212,0.1)] min-h-[250px]">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(6,182,212,0.05)_50%)] bg-[length:100%_4px] pointer-events-none"></div>
-
-      <div className="font-mono text-center relative z-10 flex flex-col gap-3 min-h-[120px] items-center justify-center">
-        <span className="text-xs text-cyan-800 tracking-[0.5em] uppercase animate-pulse">Initializing Mainframe</span>
-        <span className="text-sm md:text-lg text-cyan-400 font-bold tracking-widest drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] min-w-[300px] md:min-w-[600px] inline-block h-8 flex items-center justify-center">
-          {text}
-        </span>
-
-        {isDecrypted ? (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 200 }}
-            onClick={handleEnterSystem}
-            className="mt-6 px-8 py-3 bg-cyan-950/50 border border-cyan-500 hover:bg-cyan-500/20 text-cyan-300 font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] rounded-sm group relative overflow-hidden"
-          >
-            <span className="relative z-10">ENTER SYSTEM</span>
-            <div className="absolute inset-0 h-full w-0 bg-cyan-500/10 transition-all duration-300 ease-out group-hover:w-full z-0"></div>
-          </motion.button>
-        ) : (
-          <span className="text-xs text-cyan-800 tracking-[0.5em] uppercase mt-6 h-[46px] flex items-center justify-center">Decrypting Block</span>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
-  const [text, setText] = useState("");
-  const fullText = "Welcome To My Portfolio Website";
-
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setText(fullText.slice(0, i));
-      i++;
-      if (i > fullText.length) {
-        clearInterval(interval);
-        setTimeout(onComplete, 500); // Wait after typing finishes
-      }
-    }, 25);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -50, filter: "blur(10px)" }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center"
-    >
-      <div className="font-mono text-cyan-400 text-xl md:text-3xl font-bold tracking-widest drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] flex items-center text-center px-4">
-        <span>{text}</span>
-        <motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="ml-1 w-3 md:w-5 h-6 md:h-8 bg-cyan-400 inline-block shadow-[0_0_10px_rgba(6,182,212,0.8)]"></motion.span>
-      </div>
-    </motion.div>
-  );
-};
-
-export default function Home() {
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
-  const glassCard = "bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]";
-
-  return (
-    <main className="bg-[#050505] text-slate-200 min-h-screen selection:bg-cyan-500 selection:text-white font-sans overflow-hidden relative">
-      <AnimatePresence>
-        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      </AnimatePresence>
-
-      {/* Cinematic Background Particles/Stars */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-900/20 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-10000"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/20 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-7000"></div>
-      </div>
-
-      {/* 1. HERO SECTION (Simple Text) */}
-      <div className="h-screen relative z-10 flex flex-col items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="text-center"
-        >
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-light text-cyan-400 tracking-[0.2em] uppercase drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] mb-4">
-            Welcome To My Portfolio Website
-          </h1>
-          <AnimatedText
-            text="SHUBHAM BESETTY"
-            className="text-5xl md:text-8xl lg:text-9xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-100 to-slate-500 tracking-tighter drop-shadow-[0_0_40px_rgba(6,182,212,0.5)] text-center"
-          />
-        </motion.div>
-      </div>
-
-      {/* Hacker Tech Code Transition */}
-      <HackerTransition onUnlock={() => setIsUnlocked(true)} />
+    <main className="bg-[#02040a] text-slate-200 min-h-screen selection:bg-cyan-500 selection:text-white font-sans overflow-hidden relative">
+      
+      {/* Cinematic Hero Entrance */}
+      <CinematicHero onExplore={handleExplore} />
 
       {/* Content Wrapper */}
       {isUnlocked && (
@@ -369,6 +301,14 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {[
                 {
+                  title: "AI Resume Analyzer",
+                  type: "Full Stack Web Application",
+                  date: "05/2026",
+                  desc: "Built an AI-powered Resume Analyzer that evaluates resumes, provides ATS scores, extracts key skills, and offers improvement suggestions to enhance job application success.",
+                  tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Tailwind CSS"],
+                  link: "https://ai-resume-analyzer-kappa-tan.vercel.app/"
+                },
+                {
                   title: "Epileptic Seizure Prediction using Deep Learning",
                   type: "Academic Project",
                   date: "01/2025 – 04/2025",
@@ -377,20 +317,12 @@ export default function Home() {
                   link: "https://drive.google.com/drive/folders/1DnAJLZomr63fNEmduyUqczlNgNqedCfW"
                 },
                 {
-                  title: "Crowd Density Estimator using YOLO",
-                  type: "Mini Project",
+                  title: "Crowd Density Estimator using YOLOv5",
+                  type: "Mini project",
                   date: "04/2024 – 09/2024",
                   desc: "Developed a Flask-based AI web application utilizing YOLO object detection for real-time crowd density estimation. Supports both image and video uploads, generating live bounding boxes and inference results. Deployed on the Railway cloud platform.",
-                  tags: ["Python", "Flask", "YOLO", "OpenCV", "Railway"],
+                  tags: ["Python", "Flask", "YOLOv5", "OpenCV", "Railway"],
                   link: "https://people-counter-app-production.up.railway.app/"
-                },
-                {
-                  title: "AI Resume Analyzer",
-                  type: "Full Stack Project",
-                  date: "05/2026 – Present",
-                  desc: "Built an AI-powered Resume Analyzer that evaluates resumes, provides ATS scores, extracts key skills, and offers improvement suggestions to enhance job application success.",
-                  tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Tailwind CSS"],
-                  link: "https://ai-resume-analyzer-kappa-tan.vercel.app/"
                 }
               ].map((proj, idx) => (
                 <motion.div
@@ -448,9 +380,11 @@ export default function Home() {
 
               <div className="space-y-8">
                 {[
-                  { category: "Languages & Scripting", items: ['HTML', 'CSS', 'C', 'C++', 'JavaScript'] },
-                  { category: "Database & Backend", items: ['Node.js', 'MongoDB', 'SQL', 'DBMS'] },
-                  { category: "Tools & Platforms", items: ['GitHub', 'VS Code'] }
+                  { category: "Languages & Scripting", items: ['HTML', 'CSS', 'JavaScript', 'C', 'C++'] },
+                  { category: "Backend", items: ['Node.js', 'Express.js'] },
+                  { category: "Database", items: ['MongoDB', 'SQL', 'DBMS'] },
+                  { category: "Tools & Platforms", items: ['GitHub', 'VS Code', 'Vercel', 'Render'] },
+                  { category: "Soft Skills", items: ['Problem-Solving & Critical Thinking', 'Time Management & Self-Motivation', 'Teamwork & Collaboration', 'Leadership', 'Fast Learner'] }
                 ].map((skillGroup, idx) => (
                   <div key={idx}>
                     <h4 className="text-cyan-400/80 mb-4 uppercase tracking-widest text-xs font-semibold">{skillGroup.category}</h4>
