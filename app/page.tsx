@@ -262,9 +262,15 @@ export default function Home() {
                   <span className="text-cyan-400 text-sm font-semibold tracking-wider mb-2 block">05/2025 – 06/2025</span>
                   <h3 className="text-2xl font-bold text-white">Machine Learning Intern</h3>
                   <h4 className="text-lg text-slate-400 mb-4">HMIES Solutions Pvt Ltd • Visakhapatnam</h4>
-                  <p className="text-slate-300 leading-relaxed font-light">
+                  <p className="text-slate-300 leading-relaxed font-light mb-6">
                     Developed and trained Machine Learning models using Python and scikit-learn, producing 90% prediction accuracy. Processed 5,000+ real-world records through data preprocessing and feature engineering, implemented supervised learning algorithms, and optimized model performance.
                   </p>
+                  <a href="/hmies-certificate.pdf" target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-2 px-5 py-2 bg-cyan-950/30 border border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider rounded-full transition-all w-max hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                    <span>Details</span>
+                    <svg className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
                 </div>
               </motion.div>
 
@@ -310,7 +316,8 @@ export default function Home() {
                   date: "05/2026",
                   desc: "Built an AI-powered Resume Analyzer that evaluates resumes, provides ATS scores, extracts key skills, and offers improvement suggestions to enhance job application success.",
                   tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Tailwind CSS"],
-                  link: "https://ai-resume-analyzer-kappa-tan.vercel.app/"
+                  link: "https://ai-resume-analyzer-kappa-tan.vercel.app/",
+                  linkLabel: "Link"
                 },
                 {
                   title: "Epileptic Seizure Prediction using Deep Learning",
@@ -318,7 +325,10 @@ export default function Home() {
                   date: "01/2025 – 04/2025",
                   desc: "Designed a deep learning-based epileptic seizure prediction system using LSTM and EEG signal analysis, accomplished 98.53% accuracy and 99.67% ROC-AUC score. Processed 10,000+ EEG records and built a Streamlit web app for real-time prediction.",
                   tags: ["Deep Learning", "LSTM", "Python", "Streamlit"],
-                  link: "https://drive.google.com/drive/folders/1DnAJLZomr63fNEmduyUqczlNgNqedCfW"
+                  link: "https://drive.google.com/drive/folders/1DnAJLZomr63fNEmduyUqczlNgNqedCfW",
+                  linkLabel: "Details",
+                  link2: "https://healthcare-ai-seizure-prediction-mo.vercel.app/",
+                  link2Label: "Link"
                 },
                 {
                   title: "Crowd Density Estimator using YOLOv5",
@@ -326,7 +336,8 @@ export default function Home() {
                   date: "04/2024 – 09/2024",
                   desc: "Developed a Flask-based AI web application utilizing YOLO object detection for real-time crowd density estimation. Supports both image and video uploads, generating live bounding boxes and inference results. Deployed on the Railway cloud platform.",
                   tags: ["Python", "Flask", "YOLOv5", "OpenCV", "Railway"],
-                  link: "https://people-counter-app-production.up.railway.app/"
+                  link: "https://people-counter-app-production.up.railway.app/",
+                  linkLabel: "Details"
                 }
               ].map((proj, idx) => (
                 <motion.div
@@ -346,13 +357,25 @@ export default function Home() {
                     <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors">{proj.title}</h3>
                     <p className="text-slate-400 mb-6 leading-relaxed font-light">{proj.desc}</p>
 
-                    {proj.link && (
-                      <a href={proj.link} target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-2 mb-8 px-5 py-2 bg-cyan-950/30 border border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider rounded-full transition-all w-max hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                        <span>Details</span>
-                        <svg className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </a>
+                    {(proj.link || (proj as any).link2) && (
+                      <div className="flex flex-wrap gap-4 mb-8">
+                        {proj.link && (
+                          <a href={proj.link} target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-2 px-5 py-2 bg-cyan-950/30 border border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider rounded-full transition-all w-max hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                            <span>{(proj as any).linkLabel || "Details"}</span>
+                            <svg className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                          </a>
+                        )}
+                        {(proj as any).link2 && (
+                          <a href={(proj as any).link2} target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-2 px-5 py-2 bg-cyan-950/30 border border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider rounded-full transition-all w-max hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                            <span>{(proj as any).link2Label || "Link"}</span>
+                            <svg className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
                     )}
 
                     <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
