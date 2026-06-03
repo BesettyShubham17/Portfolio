@@ -337,7 +337,7 @@ export default function Home() {
                   desc: "Developed a Flask-based AI web application utilizing YOLO object detection for real-time crowd density estimation. Supports both image and video uploads, generating live bounding boxes and inference results. Deployed on the Railway cloud platform.",
                   tags: ["Python", "Flask", "YOLOv5", "OpenCV", "Railway"],
                   link: "https://people-counter-app-production.up.railway.app/",
-                  linkLabel: "Details"
+                  linkLabel: "Link"
                 }
               ].map((proj, idx) => (
                 <motion.div
